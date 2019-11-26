@@ -10,6 +10,7 @@
 
     <services>
         <service id="besimple.soap.client.builder" class="%besimple.soap.client.builder.class%" abstract="true">
+            <argument type="service" id="besimple.soap.client.http_client.factory" />
             <argument /> <!-- wsdl URI -->
             <argument type="collection">
                 <argument key="debug">%kernel.debug%</argument>
@@ -21,6 +22,20 @@
 
         <service id="besimple.soap.client" class="%besimple.soap.client.builder.class%" abstract="true">
             <factory class="besimple.soap.client.builder" method="build" />
+        </service>
+
+        <service id="besimple.soap.client.http_client.log_handler" class="RentTrack\HttpClient\LoggableBehavior\DefaultLogHandler">
+            <argument type="service" id="logger" />
+        </service>
+        
+        <service id="besimple.soap.client.http_client" class="RentTrack\HttpClient\HttpClient">
+            <call method="addLogHandler">
+                <argument type="service" id="besimple.soap.client.http_client.log_handler" />
+            </call>
+        </service>
+
+        <service id="besimple.soap.client.http_client.factory" class="BeSimple\SoapClient\HttpClientFactory">
+            <argument type="service" id="besimple.soap.client.http_client" />
         </service>
 
         <service id="besimple.soap.classmap" class="%besimple.soap.classmap.class%" abstract="true" />

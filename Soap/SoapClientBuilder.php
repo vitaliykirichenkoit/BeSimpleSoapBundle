@@ -2,6 +2,7 @@
 
 namespace BeSimple\SoapBundle\Soap;
 
+use BeSimple\SoapClient\HttpClientFactory;
 use BeSimple\SoapCommon\Classmap;
 use BeSimple\SoapCommon\Converter\TypeConverterCollection;
 use BeSimple\SoapClient\SoapClientBuilder as BaseSoapClientBuilder;
@@ -10,9 +11,14 @@ class SoapClientBuilder extends BaseSoapClientBuilder
 {
     protected $soapClient;
 
-    public function __construct($wsdl, array $options, Classmap $classmap = null, TypeConverterCollection $converters = null)
-    {
-        parent::__construct();
+    public function __construct(
+        HttpClientFactory $httpClientFactory,
+        $wsdl,
+        array $options,
+        Classmap $classmap = null,
+        TypeConverterCollection $converters = null
+    ) {
+        parent::__construct($httpClientFactory);
 
         $this->checkOptions($options);
 
@@ -27,6 +33,10 @@ class SoapClientBuilder extends BaseSoapClientBuilder
 
         if (isset($options['cache_type'])) {
             $this->withWsdlCache($options['cache_type']);
+        }
+
+        if (isset($options['http_client'])) {
+            $this->withHttpClient($options['http_client']);
         }
 
         if ($classmap) {
@@ -54,6 +64,7 @@ class SoapClientBuilder extends BaseSoapClientBuilder
             'cache_type' => null,
             'exceptions' => true,
             'user_agent' => 'BeSimpleSoap',
+            'http_client'=> 'guzzle',
         );
 
         // check option names and live merge, if errors are encountered Exception will be thrown

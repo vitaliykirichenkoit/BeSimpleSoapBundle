@@ -82,6 +82,7 @@ class Configuration
                         ->prototype('array')
                             ->children()
                                 ->scalarNode('wsdl')->isRequired()->end()
+                                ->scalarNode('http_client')->defaultValue('guzzle')->end()
                                 ->scalarNode('user_agent')->end()
                                 ->scalarNode('cache_type')
                                     ->validate()
