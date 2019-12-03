@@ -26,6 +26,9 @@
 
         <service id="besimple.soap.client.http_client.log_handler" class="RentTrack\HttpClient\LoggableBehavior\DefaultLogHandler">
             <argument type="service" id="logger" />
+            <argument>true</argument>
+            <argument>true</argument>
+            <argument>debug</argument>
         </service>
         
         <service id="besimple.soap.client.http_client" class="RentTrack\HttpClient\HttpClient">
