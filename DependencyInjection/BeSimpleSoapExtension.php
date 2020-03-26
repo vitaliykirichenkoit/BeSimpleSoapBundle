@@ -152,6 +152,7 @@ class BeSimpleSoapExtension extends Extension
             new Reference(sprintf('besimple.soap.client.builder.%s', $client)),
             'build'
         ));
+        $definition->setPublic(true);
     }
 
     private function createWebServiceContext(array $config, ContainerBuilder $container)
